@@ -21,11 +21,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -s settings.xml -DskipTests install'
+                sh 'mvn clean -s settings.xml -DskipTests install'
             }
             post {
                 success {
-                    echo 'Build Success'
+                    echo '✅ Build Success'
                     archiveArtifacts artifacts: '**/*.jar'
                 }
             }
@@ -37,10 +37,10 @@ pipeline {
             }
             post {
                 success {
-                    echo 'Test Success'
+                    echo '✅ Test Success'
                 }
                 failure {
-                    echo 'Test Failed'
+                    echo '❌ Test Failed'
                 }
             }
         }
@@ -53,17 +53,17 @@ pipeline {
 
         stage('SonarQube Analysis') {
             environment {
-                scannerHome = tool 'SONARSCANNER'
+                SCANNER_HOME = tool 'SONARSCANNER'
             }
             steps {
                 withSonarQubeEnv('SONARSERVER') {
                     sh """
-                        ${scannerHome}/bin/sonar-scanner \
+                        ${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=Vprofile \
                         -Dsonar.projectName=Vprofile \
                         -Dsonar.projectVersion=1.0 \
                         -Dsonar.sources=src/ \
-                        -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest \
+                        -Dsonar.java.binaries=target/classes \
                         -Dsonar.junit.reportPaths=target/surefire-reports/ \
                         -Dsonar.jacoco.reportPaths=target/jacoco.exec \
                         -Dsonar.java.checkstyle.reportPaths=target/site/checkstyle-result.xml
