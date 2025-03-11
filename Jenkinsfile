@@ -18,6 +18,8 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
+        PROJECT_NAME = 'vprofile-v2'
+        VERSION = '1.0.0'
     }
 
     stages {
@@ -27,7 +29,7 @@ pipeline {
             }
             post {
                 success {
-                    echo 'Build Success'
+                    echo '✅ Build Success'
                     archiveArtifacts artifacts: '**/*.jar'
                 }
             }
@@ -39,10 +41,10 @@ pipeline {
             }
             post {
                 success {
-                    echo 'Test Success'
+                    echo '✅ Test Success'
                 }
                 failure {
-                    echo 'Test Failed'
+                    echo '❌ Test Failed'
                 }
             }
         }
@@ -55,21 +57,45 @@ pipeline {
 
         stage('SonarQube Analysis') {
             environment {
-                scannerHome = tool "${SONARSCANNER}"
+                SCANNER_HOME = tool SONARSCANNER
             }
             steps {
-                withSonarQubeEnv("${SONARSERVER}") {
+                withSonarQubeEnv(SONARSERVER) {
                     sh """
-                        ${scannerHome}/bin/sonar-scanner \
+                        ${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=Vprofile \
                         -Dsonar.projectName=Vprofile \
-                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.projectVersion=${VERSION} \
                         -Dsonar.sources=src/ \
-                        -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest \
+                        -Dsonar.java.binaries=target/classes \
                         -Dsonar.junit.reportPaths=target/surefire-reports/ \
                         -Dsonar.jacoco.reportPaths=target/jacoco.exec \
                         -Dsonar.java.checkstyle.reportPaths=target/site/checkstyle-result.xml
                     """
+                }
+            }
+        }
+
+        stage('Artifacts Upload') {
+            steps {
+                script {
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                        groupId: 'com.example',
+                        version: "${VERSION}",
+                        repository: "${RELEASE_REPO}",
+                        credentialsId: "${NEXUS_LOGIN}",
+                        artifacts: [
+                            [
+                                artifactId: "${PROJECT_NAME}",
+                                classifier: '',
+                                file: "target/${PROJECT_NAME}.war",
+                                type: 'war'
+                            ]
+                        ]
+                    )
                 }
             }
         }
