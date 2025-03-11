@@ -22,6 +22,49 @@ pipeline {
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
             }
+            post {
+                success {
+                    echo 'Build Success'
+                    archiveArtifacts artifacts: '**/*.jar'
+                }
+               
+                
+            }
+        }
+        stage('Test'){
+            steps {
+                sh 'mvn -s settings.xml test'
+            }
+            post {
+                success {
+                    echo 'Test Success'
+                }
+                failure {
+                    echo 'Test Failed'
+                }
+            }
+        stage('checkstyle analysis'){
+            steps {
+                sh 'mvn -s settings.xml checkstyle:checkstyle'
+            }
+            
+            }
+        stage('SonarQube analysis'){
+            environment {
+                scannerHome = tool '${SONARSCANNER}'
+            }
+            steps {
+                withSonarQubeEnv('${SONARSERVER}') {
+                    sh "${scannerHome}/bin/sonar-scanner" -Dsonar.projectKey=Vprofile \
+                    -Dsonar.projectName=Vprofile \
+                    -Dsonar.projectVersion=1.0 \
+                    -Dsonar.sources=src/ \
+                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest \
+                    -Dsonar.junit.reportPaths=target/surefire-reports/ \
+                    -Dsonar.jacoco.reportPaths=target/jacoco.exec \
+                    -Dsonar.java.checkstyle.reportPaths=target/site/checkstyle-result.xml \
+                }
+            }
         }
     }
 }
