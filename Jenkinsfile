@@ -89,9 +89,9 @@ pipeline {
                         credentialsId: "${NEXUS_LOGIN}",
                         artifacts: [
                             [
-                                artifactId: "${PROJECT_NAME}",
+                                artifactId: "vproapp",
                                 classifier: '',
-                                file: "target/${PROJECT_NAME}.war",
+                                file: "target/vprofile-v2.war",
                                 type: 'war'
                             ]
                         ]
