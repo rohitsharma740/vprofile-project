@@ -16,7 +16,7 @@ pipeline {
 		NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
     }
-##
+
     stages {
         stage('Build'){
             steps {
@@ -28,19 +28,6 @@ pipeline {
                     archiveArtifacts artifacts: '**/*.war'
                 }
 
-                
             }
-            stage('Test'){
-            steps {
-                sh 'mvn test'
-            }
-            stage('checkstyle analysis'){
-            steps {
-                sh 'mvn checkstyle:checkstyle'
-            }
-            
-                
-            
-        }
     }
 }
