@@ -36,7 +36,7 @@ jobs:
             -Dsonar.host.url="https://sonarcloud.io" \
             -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
             -Dsonar.organization="rohitsharma740" \
-            -Dsonar.projectKey="actionscode" \
+            -Dsonar.projectKey="rohitsharma740_actionscode" \
             -Dsonar.sources=src/main/java \
             -Dsonar.java.binaries=target/classes \
             -Dsonar.junit.reportPaths=target/surefire-reports \
