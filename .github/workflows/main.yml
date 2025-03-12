@@ -9,3 +9,11 @@ jobs:
       - name: Testing workflow
         run: echo "workflow works!"
 
+      - name: Checkout
+        uses: actions/checkout@v4 
+
+      - name: mvn test
+        run: mvn test
+      
+      - name: checkstyle
+        uses: mvn checkstyle:checkstyle
