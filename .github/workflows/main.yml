@@ -43,4 +43,3 @@ jobs:
              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
              -Dsonar.java.checkstyle.reportPaths=target/site/checkstyle-result.xml
         
--
