@@ -56,6 +56,7 @@ jobs:
           SONAR_HOST_URL: "https://sonarcloud.io"
   
   BUILD_AND_PUBLISH:
+    needs: Testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
