@@ -34,7 +34,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.host.url="https://sonarcloud.io" \
-            -Dsonar.login="39a3a17459077b4c447ae0c07e8fa7b87485d1dd" \
+            -Dsonar.login="97d85b4ea1629f6a8284e55cb758273362cd3063" \
             -Dsonar.organization="rohitsharma740" \
             -Dsonar.projectKey="actionscode" \
             -Dsonar.sources=src/main/java \
