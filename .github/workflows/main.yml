@@ -6,7 +6,7 @@ env:
   ECR_REPOSITORY: gitops
   ECS_SERVICE: gitopscluster-svc
   ECS_CLUSTER: gitopscluster
-  ECS_TASK_DEFINITION: aws-files/taskddeffile.json
+  ECS_TASK_DEFINITION: aws-files/taskdeffile.json
   CONTAINER_NAME: vproapp
 
 jobs:
