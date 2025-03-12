@@ -39,7 +39,6 @@ jobs:
             -Dsonar.projectKey="actionscode" \
             -Dsonar.sources=src/main/java \
             -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest \
-            -Dsonar.java.libraries=target/test-classe s/com/visualpathit/account/controllerTest \
             -Dsonar.junit.reportPaths=target/surefire-reports \
             -Dsonar.jacoco.reportPaths=target/jacoco.exec \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
