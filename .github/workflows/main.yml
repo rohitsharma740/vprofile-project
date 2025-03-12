@@ -80,6 +80,6 @@ jobs:
           #auto_tag: true
           daemon_off: false
           dockerfile: ./Dockerfile
-          context: example
+          context: ./
 
 
